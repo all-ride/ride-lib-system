@@ -1,0 +1,17 @@
+{
+    "name": "pallo/lib-system",
+    "description": "System library of the Pallo framework",
+    "license": "MIT",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Joris Vandeweerd",
+            "email": "joris@statik.be"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "pallo\\library\\system\\": ["src/", "test/src/"]
+        }
+    }
+}
