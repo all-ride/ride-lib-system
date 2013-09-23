@@ -53,6 +53,14 @@ class System {
     }
 
     /**
+     * Checks if the current environment is CLI
+     * @return boolean
+     */
+    public function isCli() {
+    	return PHP_SAPI == 'cli' || isset($_SERVER['SHELL']);
+    }
+
+    /**
      * Gets the file system
      * @return \pallo\library\system\pallo\library\system\file\FileSystem
      * @throws pallo\library\system\exception\Exception when the file

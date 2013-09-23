@@ -31,6 +31,14 @@ class SystemTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	public function testCli() {
+		if (PHP_SAPI == 'cli') {
+			$this->assertTrue($this->system->isCli());
+		} else {
+			$this->assertFalse($this->system->isCli());
+		}
+	}
+
 	public function testGetFileSystem() {
 		if ($this->system->isUnix()) {
 			$fs = $this->system->getFileSystem();
