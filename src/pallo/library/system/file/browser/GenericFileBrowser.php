@@ -23,10 +23,50 @@ class GenericFileBrowser implements FileBrowser {
     protected $publicDirectory;
 
     /**
+     * Public path in the include directories
+     * @var string
+     */
+    protected $publicPath;
+
+    /**
      * Array containing the directories of the file system structure
      * @var array
      */
     protected $includeDirectories = array();
+
+    /**
+     * Adds a include directory.
+     * @param pallo\library\system\file\File $directory
+     * @return null
+     */
+    public function addIncludeDirectory(File $directory) {
+        $this->includeDirectories[$directory->getAbsolutePath()] = $directory;
+    }
+
+    /**
+     * Removes a include directory
+     * @param pallo\library\system\file\File $directory
+     * @return null
+     */
+    public function removeIncludeDirectory($directory) {
+        if ($directory instanceof File) {
+            $directory = $directory->getAbsolutePath();
+        }
+
+        if (isset($this->includeDirectories[$directory])) {
+            unset($this->includeDirectories[$directory]);
+        }
+    }
+
+    /**
+     * Gets the first file in the include paths
+     * @param string $file Relative path of a file in the include paths
+     * @return pallo\library\system\file\File|null Instance of the file if found,
+     * null otherwise
+     */
+    public function getIncludeDirectories() {
+        return $this->includeDirectories;
+    }
 
     /**
      * Sets the application directory
@@ -70,8 +110,25 @@ class GenericFileBrowser implements FileBrowser {
     }
 
     /**
-     * Gets the first file in the public directory structure
-     * @param string $file Relative path
+     * Sets the public path of the include directories
+     * @param string $path
+     * @return null
+     */
+    public function setPublicPath($path) {
+        $this->publicPath = $path;
+    }
+
+    /**
+     * Gets the public path of the include directories
+     * @return string
+     */
+    public function getPublicPath() {
+        return $this->publicPath;
+    }
+
+    /**
+     * Gets the first file in the public domain
+     * @param string $file Relative path of a file in the public domain
      * @return pallo\library\system\file\File|null Instance of the file if found,
      * null otherwise
      */
@@ -85,46 +142,16 @@ class GenericFileBrowser implements FileBrowser {
             }
         }
 
-        return $this->getFile('public/' . $fileName);
-    }
-
-    /**
-     * Adds a include directory.
-     * @param pallo\library\system\file\File $directory
-     * @return null
-     */
-    public function addIncludeDirectory(File $directory) {
-        $this->includeDirectories[$directory->getAbsolutePath()] = $directory;
-    }
-
-    /**
-     * Removes a include directory
-     * @param pallo\library\system\file\File $directory
-     * @return null
-     */
-    public function removeIncludeDirectory($directory) {
-        if ($directory instanceof File) {
-            $directory = $directory->getAbsolutePath();
+        if ($this->publicPath) {
+            return $this->getFile($this->publicPath . File::DIRECTORY_SEPARATOR . $fileName);
         }
 
-        if (isset($this->includeDirectories[$directory])) {
-            unset($this->includeDirectories[$directory]);
-        }
+        return null;
     }
 
     /**
-     * Gets all the include directories
-     * @return array Array with File instances
-     */
-    public function getIncludeDirectories() {
-        return $this->includeDirectories;
-    }
-
-    /**
-     * Gets the first file in the file system structure according to the
-     * provided path.
-     * @param string $file Relative path of a file in the file system
-     * structure
+     * Gets the first file in the include paths
+     * @param string $file Relative path of a file in the include paths
      * @return pallo\library\system\file\File|null Instance of the file if found,
      * null otherwise
      */
@@ -133,10 +160,9 @@ class GenericFileBrowser implements FileBrowser {
     }
 
     /**
-     * Gets all the files in the file system structure according to the
-     * provided path.
-     * @param string $file Relative path of a file in the file system structure
-     * @return array Array with File instances
+     * Gets all the files in the include paths
+     * @param string $file Relative path of a file in the include paths
+     * @return array array with File instances
      * @see pallo\library\system\file\File
      */
     public function getFiles($file) {
@@ -184,15 +210,14 @@ class GenericFileBrowser implements FileBrowser {
     }
 
     /**
-     * Gets the relative file in the file system structure for a given
-     * absolute file.
+     * Gets the relative file in the include paths for a given absolute file
      * @param string|pallo\library\system\file\File $file Path to a file to get
      * the relative file from
      * @param boolean $public Set to true to check the public directory as well
      * @return pallo\library\system\file\File relative file in the file system
-     * structure
+     * structure if located in one of the include paths
      * @throws pallo\library\system\exception\FileSystemException when the
-     * provided file is not part of the file system structure
+     * provided file is not in one of the include paths
      */
     public function getRelativeFile($file, $public = false) {
         $fileSystem = null;
