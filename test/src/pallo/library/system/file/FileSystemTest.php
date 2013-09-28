@@ -8,23 +8,23 @@ use \PHPUnit_Framework_TestCase;
 
 class FileSystemTest extends PHPUnit_Framework_TestCase {
 
-	/**
-	 * @var pallo\library\system\file\FileSystem
-	 */
-	protected $fs;
+    /**
+     * @var pallo\library\system\file\FileSystem
+     */
+    protected $fs;
 
     protected function setUp() {
-		$system = new System();
+        $system = new System();
 
         $this->fs = $system->getFileSystem();
     }
 
     public function testGetTemporaryFile() {
-    	$file = $this->fs->getTemporaryFile();
+        $file = $this->fs->getTemporaryFile();
 
-    	$this->assertTrue($file->isWritable());
+        $this->assertTrue($file->isWritable());
 
-    	$file->delete();
+        $file->delete();
     }
 
     /**
@@ -135,8 +135,8 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetSize() {
-    	$file = tempnam(sys_get_temp_dir(), 'file-system-test');
-    	file_put_contents($file, '0123456789');
+        $file = tempnam(sys_get_temp_dir(), 'file-system-test');
+        file_put_contents($file, '0123456789');
 
         $file = $this->fs->getFile($file);
 
@@ -179,11 +179,11 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function providerGetPermissions() {
-    	$writable = tempnam(sys_get_temp_dir(), 'file-system-test');
-    	chmod($writable, 0777);
+        $writable = tempnam(sys_get_temp_dir(), 'file-system-test');
+        chmod($writable, 0777);
 
-    	$unreadable = tempnam(sys_get_temp_dir(), 'file-system-test');
-    	chmod($writable, 000);
+        $unreadable = tempnam(sys_get_temp_dir(), 'file-system-test');
+        chmod($writable, 000);
 
         return array(
            array(0777, $writable),
@@ -201,8 +201,8 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testSetPermissions() {
-    	$file = tempnam(sys_get_temp_dir(), 'file-system-test');
-    	chmod($file, 0777);
+        $file = tempnam(sys_get_temp_dir(), 'file-system-test');
+        chmod($file, 0777);
 
         $writable = $this->fs->getFile($file);
 
@@ -225,9 +225,9 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testReadWithFile() {
-    	$data = '0123456789';
-    	$file = tempnam(sys_get_temp_dir(), 'file-system-test');
-    	file_put_contents($file, $data);
+        $data = '0123456789';
+        $file = tempnam(sys_get_temp_dir(), 'file-system-test');
+        file_put_contents($file, $data);
 
         $file = $this->fs->getFile($file);
 
@@ -301,7 +301,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
      * @expectedException pallo\library\system\exception\FileSystemException
      */
     public function testWriteThrowsExceptionWhenFileIsNotWritable() {
-    	$file = tempnam(sys_get_temp_dir(), 'file-system-test');
+        $file = tempnam(sys_get_temp_dir(), 'file-system-test');
         chmod($file, 0000);
 
         $file = $this->fs->getFile($file);
@@ -364,7 +364,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testDeleteFile() {
-    	$file = tempnam(sys_get_temp_dir(), 'file-system-test');
+        $file = tempnam(sys_get_temp_dir(), 'file-system-test');
 
         $file = $this->fs->getFile($file);
 
@@ -381,7 +381,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
 
         $destination = $this->fs->getFile('/tmp/pallo/source.copy');
         if ($destination->exists()) {
-        	$destination->delete();
+            $destination->delete();
         }
 
         $source->copy($source);
@@ -406,7 +406,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
             $this->fs->create($sourceInnerDir);
         }
         if ($this->fs->exists($destination)) {
-        	$this->fs->delete($destination);
+            $this->fs->delete($destination);
         }
 
         $this->fs->copy($source, $destination);
@@ -435,7 +435,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
 
         $destination = $this->fs->getFile('/tmp/pallo/source.move');
         if ($this->fs->exists($destination)) {
-        	$this->fs->delete($destination);
+            $this->fs->delete($destination);
         }
 
         $source->move($destination);

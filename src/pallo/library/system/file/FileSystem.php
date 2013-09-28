@@ -7,12 +7,12 @@ namespace pallo\library\system\file;
  */
 interface FileSystem {
 
-	/**
-	 * Gets a instance of a file
-	 * @param string $path
-	 * @return File
-	 */
-	public function getFile($path);
+    /**
+     * Gets a instance of a file
+     * @param string $path
+     * @return File
+     */
+    public function getFile($path);
 
     /**
      * Get the absolute path for a file

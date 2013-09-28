@@ -6,14 +6,14 @@ use \PHPUnit_Framework_TestCase;
 
 class WindowsFileSystemTest extends PHPUnit_Framework_TestCase {
 
-	/**
-	 * @var pallo\library\system\file\WindowsFileSystem
-	 */
-	protected $fs;
+    /**
+     * @var pallo\library\system\file\WindowsFileSystem
+     */
+    protected $fs;
 
-	public function setUp() {
-		$this->fs = new WindowsFileSystem();
-	}
+    public function setUp() {
+        $this->fs = new WindowsFileSystem();
+    }
 
     /**
      * @dataProvider providerIsRootPath
