@@ -8,6 +8,12 @@ namespace pallo\library\system\file\browser;
 interface FileBrowser {
 
     /**
+     * Gets the application directory
+     * @return pallo\library\system\file\File
+     */
+    public function getApplicationDirectory();
+
+    /**
      * Gets the public directory
      * @return pallo\library\system\file\File
      */

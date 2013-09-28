@@ -11,6 +11,12 @@ use pallo\library\system\file\File;
 class GenericFileBrowser implements FileBrowser {
 
     /**
+     * Application directory
+     * @var pallo\library\system\file\File
+     */
+    protected $applicationDirectory;
+
+    /**
      * Public directory
      * @var pallo\library\system\file\File
      */
@@ -21,6 +27,30 @@ class GenericFileBrowser implements FileBrowser {
      * @var array
      */
     protected $includeDirectories = array();
+
+    /**
+     * Sets the application directory
+     * @param string|pallo\library\system\file\File $directory
+     * @return null
+     */
+    public function setApplicationDirectory(File $directory) {
+        $this->applicationDirectory = $directory;
+
+        // make sure the application directory is the first include directory
+        $path = $directory->getAbsolutePath();
+
+        $this->removeIncludeDirectory($path);
+
+        $this->includeDirectories = array($path => $directory) + $this->includeDirectories;
+    }
+
+    /**
+     * Gets the application directory
+     * @return pallo\library\system\file\File
+     */
+    public function getApplicationDirectory() {
+        return $this->applicationDirectory;
+    }
 
     /**
      * Sets the public directory
@@ -46,16 +76,16 @@ class GenericFileBrowser implements FileBrowser {
      * null otherwise
      */
     public function getPublicFile($file) {
-    	$fileName = ltrim($file, '/');
+        $fileName = ltrim($file, '/');
 
-    	if ($this->publicDirectory) {
-    		$file = $this->publicDirectory->getChild($fileName);
-    		if ($file->exists()) {
-    			return $file;
-    		}
-    	}
+        if ($this->publicDirectory) {
+            $file = $this->publicDirectory->getChild($fileName);
+            if ($file->exists()) {
+                return $file;
+            }
+        }
 
-    	return $this->getFile('public/' . $fileName);
+        return $this->getFile('public/' . $fileName);
     }
 
     /**
@@ -64,7 +94,7 @@ class GenericFileBrowser implements FileBrowser {
      * @return null
      */
     public function addIncludeDirectory(File $directory) {
-        $this->includeDirectories[$directory->getPath()] = $directory;
+        $this->includeDirectories[$directory->getAbsolutePath()] = $directory;
     }
 
     /**
@@ -73,9 +103,9 @@ class GenericFileBrowser implements FileBrowser {
      * @return null
      */
     public function removeIncludeDirectory($directory) {
-    	if ($directory instanceof File) {
-        	$directory = $directory->getPath();
-    	}
+        if ($directory instanceof File) {
+            $directory = $directory->getAbsolutePath();
+        }
 
         if (isset($this->includeDirectories[$directory])) {
             unset($this->includeDirectories[$directory]);
@@ -125,32 +155,32 @@ class GenericFileBrowser implements FileBrowser {
      * provided file name is empty or not a string
      */
     protected function lookupFile($fileName, $firstOnly) {
-    	if (!($fileName instanceof File) && (!is_string($fileName) || $fileName == '')) {
-    		throw new FileSystemException('Could not lookup file: Provided file name is empty or invalid');
-    	}
+        if (!($fileName instanceof File) && (!is_string($fileName) || $fileName == '')) {
+            throw new FileSystemException('Could not lookup file: Provided file name is empty or invalid');
+        }
 
-    	$files = array();
+        $files = array();
 
-    	foreach ($this->includeDirectories as $includeDirectory) {
-    		$file = $includeDirectory->getChild($fileName);
+        foreach ($this->includeDirectories as $includeDirectory) {
+            $file = $includeDirectory->getChild($fileName);
 
-    		if (!$file->exists()) {
-    			continue;
-    		}
+            if (!$file->exists()) {
+                continue;
+            }
 
-    		if ($firstOnly) {
-    			return $file;
-    		}
+            if ($firstOnly) {
+                return $file;
+            }
 
 
-    		$files[$file->getPath()] = $file;
-    	}
+            $files[$file->getPath()] = $file;
+        }
 
-    	if ($firstOnly) {
-    		return null;
-    	}
+        if ($firstOnly) {
+            return null;
+        }
 
-    	return $files;
+        return $files;
     }
 
     /**
@@ -165,44 +195,44 @@ class GenericFileBrowser implements FileBrowser {
      * provided file is not part of the file system structure
      */
     public function getRelativeFile($file, $public = false) {
-    	$fileSystem = null;
-    	$absoluteFile = null;
+        $fileSystem = null;
+        $absoluteFile = null;
 
-    	foreach ($this->includeDirectories as $includeDirectory) {
-    		if ($absoluteFile === null) {
-    			$fileSystem = $includeDirectory->getFileSystem();
+        foreach ($this->includeDirectories as $includeDirectory) {
+            if ($absoluteFile === null) {
+                $fileSystem = $includeDirectory->getFileSystem();
 
-		    	$file = $fileSystem->getFile($file);
+                $file = $fileSystem->getFile($file);
 
-		    	$absoluteFile = $file->getAbsolutePath();
+                $absoluteFile = $file->getAbsolutePath();
 
-		    	$isPhar = $file->hasPharProtocol();
-		    	if ($isPhar) {
-		    		$absoluteFile = substr($absoluteFile, 7);
-		    	}
-    		}
+                $isPhar = $file->hasPharProtocol();
+                if ($isPhar) {
+                    $absoluteFile = substr($absoluteFile, 7);
+                }
+            }
 
-    		$includeAbsolutePath = $includeDirectory->getAbsolutePath();
-    		if (strpos($absoluteFile, $includeAbsolutePath) !== 0) {
-    			continue;
-    		}
+            $includeAbsolutePath = $includeDirectory->getAbsolutePath();
+            if (strpos($absoluteFile, $includeAbsolutePath) !== 0) {
+                continue;
+            }
 
-    		$relativeFile = str_replace($includeAbsolutePath . File::DIRECTORY_SEPARATOR, '', $absoluteFile);
+            $relativeFile = str_replace($includeAbsolutePath . File::DIRECTORY_SEPARATOR, '', $absoluteFile);
 
-    		return $fileSystem->getFile($relativeFile);
-    	}
+            return $fileSystem->getFile($relativeFile);
+        }
 
-    	if ($public) {
-    		$publicAbsolutePath = $this->publicDirectory->getAbsolutePath();
+        if ($public) {
+            $publicAbsolutePath = $this->publicDirectory->getAbsolutePath();
 
-    		if (strpos($absoluteFile, $publicAbsolutePath) === 0) {
-	    		$relativeFile = str_replace($publicAbsolutePath . File::DIRECTORY_SEPARATOR, '', $absoluteFile);
+            if (strpos($absoluteFile, $publicAbsolutePath) === 0) {
+                $relativeFile = str_replace($publicAbsolutePath . File::DIRECTORY_SEPARATOR, '', $absoluteFile);
 
-	    		return $fileSystem->getFile($relativeFile);
-    		}
-    	}
+                return $fileSystem->getFile($relativeFile);
+            }
+        }
 
-    	throw new FileSystemException($file . ' is not in the file system structure');
+        throw new FileSystemException($file . ' is not in the file system structure');
     }
 
 }

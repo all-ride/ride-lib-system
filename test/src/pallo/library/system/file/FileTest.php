@@ -8,20 +8,20 @@ use \PHPUnit_Framework_TestCase;
 
 class FileTest extends PHPUnit_Framework_TestCase {
 
-	/**
-	 * @var pallo\library\system\file\FileSystem
-	 */
-	protected $fs;
+    /**
+     * @var pallo\library\system\file\FileSystem
+     */
+    protected $fs;
 
-	protected function setUp() {
-		$this->createFs();
-	}
+    protected function setUp() {
+        $this->createFs();
+    }
 
-	protected function createFs() {
-		$system = new System();
+    protected function createFs() {
+        $system = new System();
 
-		$this->fs = $system->getFileSystem();
-	}
+        $this->fs = $system->getFileSystem();
+    }
 
     /**
      * @dataProvider providerConstruct
@@ -35,7 +35,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     }
 
     public function providerConstruct() {
-		$this->createFs();
+        $this->createFs();
 
         return array(
            array('test/test.txt', 'test/test.txt'),
@@ -58,7 +58,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     }
 
     public function providerGetFile() {
-		$this->createFs();
+        $this->createFs();
 
         return array(
            array('test/test.txt', 'test/', 'test.txt'),
@@ -161,16 +161,16 @@ class FileTest extends PHPUnit_Framework_TestCase {
      * @dataProvider providerIsReadable
      */
     public function testIsReadable($expected, $value) {
-    	$file = new File($this->fs, $value);
+        $file = new File($this->fs, $value);
 
-    	$this->assertEquals($expected, $file->isReadable());
+        $this->assertEquals($expected, $file->isReadable());
     }
 
     public function providerIsReadable() {
-    	return array(
-  			array(true, '/'),
-   			array(false, 'unexistant'),
-    	);
+        return array(
+              array(true, '/'),
+               array(false, 'unexistant'),
+        );
     }
 
     /**
@@ -185,7 +185,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     }
 
     public function providerIsInPhar() {
-    	$this->createFs();
+        $this->createFs();
 
         return array(
            array(false, 'file.txt'),

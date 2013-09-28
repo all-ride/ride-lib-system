@@ -6,14 +6,14 @@ use \PHPUnit_Framework_TestCase;
 
 class UnixFileSystemTest extends PHPUnit_Framework_TestCase {
 
-	/**
-	 * @var pallo\library\system\file\WindowsFileSystem
-	 */
-	protected $fs;
+    /**
+     * @var pallo\library\system\file\WindowsFileSystem
+     */
+    protected $fs;
 
-	public function setUp() {
-		$this->fs = new UnixFileSystem();
-	}
+    public function setUp() {
+        $this->fs = new UnixFileSystem();
+    }
 
     /**
      * @dataProvider providerIsRootPath
@@ -80,7 +80,7 @@ class UnixFileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function providerGetParent() {
-    	$fs = new UnixFileSystem();
+        $fs = new UnixFileSystem();
 
         return array(
            array(new File($fs, 'test'), 'test/test.txt'),

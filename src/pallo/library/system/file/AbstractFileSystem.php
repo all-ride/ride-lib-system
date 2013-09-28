@@ -9,23 +9,23 @@ use pallo\library\system\exception\FileSystemException;
  */
 abstract class AbstractFileSystem implements FileSystem {
 
-	/**
-	 * Gets a instance of a file
-	 * @param string $path
-	 * @return File
-	 */
-	public function getFile($path) {
-		return new File($this, $path);
-	}
+    /**
+     * Gets a instance of a file
+     * @param string $path
+     * @return File
+     */
+    public function getFile($path) {
+        return new File($this, $path);
+    }
 
-	/**
-	 * Creates a temporary file
-	 * @param string $name Prefix for the name
-	 * @return pallo\library\system\file\File
-	 */
-	public function getTemporaryFile($name = 'temp') {
-		return $this->getFile(tempnam(sys_get_temp_dir(), $name));
-	}
+    /**
+     * Creates a temporary file
+     * @param string $name Prefix for the name
+     * @return pallo\library\system\file\File
+     */
+    public function getTemporaryFile($name = 'temp') {
+        return $this->getFile(tempnam(sys_get_temp_dir(), $name));
+    }
 
     /**
      * Get the absolute path for a file
@@ -135,7 +135,7 @@ abstract class AbstractFileSystem implements FileSystem {
 
         $time = @filemtime($path);
         if ($time === false) {
-        	$error = error_get_last();
+            $error = error_get_last();
 
             throw new FileSystemException('Cannot get the modification time of ' . $path . ': ' . $error['message']);
         }
@@ -161,7 +161,7 @@ abstract class AbstractFileSystem implements FileSystem {
 
         $size = @filesize($path);
         if ($size === false) {
-        	$error = error_get_last();
+            $error = error_get_last();
 
             throw new FileSystemException('Could not get the size of ' . $path . ': ' . $error['message']);
         }
@@ -187,7 +187,7 @@ abstract class AbstractFileSystem implements FileSystem {
 
         $mode = @fileperms($path);
         if ($mode === false) {
-        	$error = error_get_last();
+            $error = error_get_last();
 
             throw new FileSystemException('Could not get the permissions of ' . $path . ': ' . $error['message']);
         }
@@ -220,7 +220,7 @@ abstract class AbstractFileSystem implements FileSystem {
 
         $result = @chmod($path, $permissions);
         if ($result === false) {
-        	$error = error_get_last();
+            $error = error_get_last();
 
             throw new FileSystemException('Could not set the permissions of ' . $path . ' to ' . $permissions . ': ' . $error['message']);
         }
@@ -280,7 +280,7 @@ abstract class AbstractFileSystem implements FileSystem {
         }
 
         if (!($handle = @opendir($path))) {
-        	$error = error_get_last();
+            $error = error_get_last();
 
             throw new FileSystemException('Could not read ' . $path . ': ' . $error['message']);
         }

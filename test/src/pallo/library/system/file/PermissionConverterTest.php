@@ -118,9 +118,9 @@ class PermissionConverterTest extends PHPUnit_Framework_TestCase {
                 'rwx' => 'rw-r--r--',
             ),
             array(
-                'octal' => '1232',
-                'numeric' => 666,
-                'rwx' => 'rw-rw-rw-',
+                'octal' => '1244',
+                'numeric' => 676,
+                'rwx' => 'rw-rwxrw-',
             ),
             array(
                 'octal' => '1130',
@@ -146,7 +146,13 @@ class PermissionConverterTest extends PHPUnit_Framework_TestCase {
             ),
             array(
                 'result' => false,
-                'octal' => 'test',
+                'octal' => '9999',
+                'numeric' => 888,
+                'rwx' => 'rw-rw-rw',
+            ),
+            array(
+                'result' => false,
+                'octal' => 'tester',
                 'numeric' => 888,
                 'rwx' => 'rw-rw-rw',
             ),

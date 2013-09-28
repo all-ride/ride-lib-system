@@ -11,11 +11,11 @@ use pallo\library\system\file\WindowsFileSystem;
  */
 class System {
 
-	/**
-	 * Instance of the file system
-	 * @var pallo\library\system\file\FileSystem
-	 */
-	protected $fs;
+    /**
+     * Instance of the file system
+     * @var pallo\library\system\file\FileSystem
+     */
+    protected $fs;
 
     /**
      * Checks if the server operating system is a unix variant
@@ -53,33 +53,58 @@ class System {
     }
 
     /**
-     * Checks if the current environment is CLI
-     * @return boolean
-     */
-    public function isCli() {
-    	return PHP_SAPI == 'cli' || isset($_SERVER['SHELL']);
-    }
-
-    /**
      * Gets the file system
      * @return \pallo\library\system\pallo\library\system\file\FileSystem
      * @throws pallo\library\system\exception\Exception when the file
      * system is not supported
      */
     public function getFileSystem() {
-    	if ($this->fs) {
-    		return $this->fs;
-    	}
+        if ($this->fs) {
+            return $this->fs;
+        }
 
-    	if ($this->isUnix()) {
-    		$this->fs = new UnixFileSystem();
-    	} elseif ($this->isWindows()) {
-    		$this->fs = new WindowsFileSystem();
-    	} else {
-    		throw new SystemException('Could not get the file system: ' . $osType . ' is not supported');
-    	}
+        if ($this->isUnix()) {
+            $this->fs = new UnixFileSystem();
+        } elseif ($this->isWindows()) {
+            $this->fs = new WindowsFileSystem();
+        } else {
+            throw new SystemException('Could not get the file system: ' . PHP_OS . ' is not supported');
+        }
 
-    	return $this->fs;
+        return $this->fs;
+    }
+
+    /**
+     * Checks if the current environment is CLI
+     * @return boolean
+     */
+    public function isCli() {
+        return PHP_SAPI == 'cli' || isset($_SERVER['SHELL']);
+    }
+
+    /**
+     * Gets the client who is using the system. When invoked through cli, the
+     * user of the system is returned, an ip when invoked through the web
+     * @return string
+     */
+    public function getClient() {
+        if ($this->isCli()) {
+            if (isset($_SERVER['USER'])) {
+                return $_SERVER['USER'];
+            } elseif (isset($_SERVER['LOGNAME'])) {
+                return $_SERVER['LOGNAME'];
+            }
+        } else {
+            if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                return $_SERVER['HTTP_CLIENT_IP'];
+            } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                return $_SERVER['HTTP_X_FORWARDED_FOR'];
+            } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+                return $_SERVER['REMOTE_ADDR'];
+            }
+        }
+
+        return 'unknown';
     }
 
     /**

@@ -42,9 +42,9 @@ class File {
      * path is empty
      */
     public function __construct(FileSystem $fileSystem, $path) {
-    	$this->fs = $fileSystem;
+        $this->fs = $fileSystem;
 
-    	$this->setPath($path);
+        $this->setPath($path);
 
         if ($this->isInPhar() && !$this->hasPharProtocol()) {
             $this->path = 'phar://' . $this->path;
@@ -64,7 +64,7 @@ class File {
      * @return pallo\library\system\file\FileSystem
      */
     public function getFileSystem() {
-    	return $this->fs;
+        return $this->fs;
     }
 
     /**
@@ -78,7 +78,7 @@ class File {
         } elseif (!is_string($path) || $path == '') {
             throw new FileSystemException('Could not set path: provided path is invalid or empty');
         } else {
-        	$path = str_replace('\\', self::DIRECTORY_SEPARATOR, $path);
+            $path = str_replace('\\', self::DIRECTORY_SEPARATOR, $path);
         }
 
         $this->path = $path;
@@ -94,7 +94,7 @@ class File {
      * @return string
      */
     public function getPath() {
-    	return $this->path;
+        return $this->path;
     }
 
     /**
@@ -105,23 +105,23 @@ class File {
      * provided path is absolute
      */
     public function getChild($path) {
-   		$child = $this->fs->getFile($path);
-   		if ($child->isAbsolute()) {
-   			throw new FileSystemException('Could not get child for ' . $child->getPath() . ': path cannot be absolute');
-   		}
+           $child = $this->fs->getFile($path);
+           if ($child->isAbsolute()) {
+               throw new FileSystemException('Could not get child for ' . $child->getPath() . ': path cannot be absolute');
+           }
 
-   		$childPath = $child->getPath();
-   		if ($child->hasPharProtocol()) {
-   			$childPath = substr($childPath, 7);
-   		}
+           $childPath = $child->getPath();
+           if ($child->hasPharProtocol()) {
+               $childPath = substr($childPath, 7);
+           }
 
-   		if (!$this->isRootPath) {
-	   		$childPath = self::DIRECTORY_SEPARATOR . $childPath;
-   		}
+           if (!$this->isRootPath) {
+               $childPath = self::DIRECTORY_SEPARATOR . $childPath;
+           }
 
-   		$childPath = $this->path . $childPath;
+           $childPath = $this->path . $childPath;
 
-   		return $this->fs->getFile($childPath);
+           return $this->fs->getFile($childPath);
     }
 
     /**
