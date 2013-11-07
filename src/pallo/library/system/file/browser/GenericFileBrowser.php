@@ -35,6 +35,26 @@ class GenericFileBrowser implements FileBrowser {
     protected $includeDirectories = array();
 
     /**
+     * Gets the instance of the file system
+     * @return pallo\library\system\file\FileSystem
+     */
+    public function getFileSystem() {
+        if ($this->applicationDirectory) {
+            return $this->applicationDirectory->getFileSystem();
+        }
+
+        if ($this->publicDirectory) {
+            return $this->publicDirectory->getFileSystem();
+        }
+
+        foreach ($includeDirectories as $directory) {
+            return $directory->getFileSystem();
+        }
+
+        throw new FileSystemException('Could not get the file system: no directories set');
+    }
+
+    /**
      * Adds a include directory.
      * @param pallo\library\system\file\File $directory
      * @return null

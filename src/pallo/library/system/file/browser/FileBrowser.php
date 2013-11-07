@@ -8,6 +8,12 @@ namespace pallo\library\system\file\browser;
 interface FileBrowser {
 
     /**
+     * Gets the instance of the file system
+     * @return pallo\library\system\file\FileSystem
+     */
+    public function getFileSystem();
+
+    /**
      * Gets the base directories of the Zibo filesystem structure. This will
      * return the directory of application first, then the directories of the
      * actual modules
