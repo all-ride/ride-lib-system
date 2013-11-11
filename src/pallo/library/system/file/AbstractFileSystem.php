@@ -28,36 +28,6 @@ abstract class AbstractFileSystem implements FileSystem {
     }
 
     /**
-     * Get the absolute path for a file
-     * @param File $file
-     * @return string
-     */
-    abstract public function getAbsolutePath(File $file);
-
-    /**
-     * Check whether a file has an absolute path
-     * @param File $file
-     * @return boolean True when the file has an absolute path
-     */
-    abstract public function isAbsolute(File $file);
-
-    /**
-     * Check whether a path is a root path (/, c:/, //server)
-     * @param string $path
-     * @return boolean True when the file is a root path, false otherwise
-     */
-    abstract public function isRootPath($path);
-
-    /**
-     * Get the parent of the provided file
-     *
-     * If you provide a path like /var/www/site, the parent will be /var/www
-     * @param File $file
-     * @return File Parent of the file
-     */
-    abstract public function getParent(File $file);
-
-    /**
      * Checks whether a file exists
      * @param File $file
      * @return boolean True when the file exists, false otherwise
