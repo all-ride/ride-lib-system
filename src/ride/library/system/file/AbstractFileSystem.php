@@ -1,8 +1,8 @@
 <?php
 
-namespace pallo\library\system\file;
+namespace ride\library\system\file;
 
-use pallo\library\system\exception\FileSystemException;
+use ride\library\system\exception\FileSystemException;
 
 /**
  * Abstract file system implementation
@@ -21,7 +21,7 @@ abstract class AbstractFileSystem implements FileSystem {
     /**
      * Creates a temporary file
      * @param string $name Prefix for the name
-     * @return pallo\library\system\file\File
+     * @return ride\library\system\file\File
      */
     public function getTemporaryFile($name = 'temp') {
         return $this->getFile(tempnam(sys_get_temp_dir(), $name));
@@ -91,9 +91,9 @@ abstract class AbstractFileSystem implements FileSystem {
      * Get the timestamp of the last write to the file
      * @param File $file
      * @return int timestamp of the last modification
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file does not exist
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * modification time could not be read
      */
     public function getModificationTime(File $file) {
@@ -117,9 +117,9 @@ abstract class AbstractFileSystem implements FileSystem {
      * Get the size of a file
      * @param File $file
      * @return int size of the file in bytes
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file is a directory
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file size could not be read
      */
     public function getSize(File $file) {
@@ -143,9 +143,9 @@ abstract class AbstractFileSystem implements FileSystem {
      * Get the permissions of a file or directory
      * @param File $file
      * @return int an octal value of the permissions. eg. 0755
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file or directory does not exist
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * permissions could not be read
      */
     public function getPermissions(File $file) {
@@ -176,9 +176,9 @@ abstract class AbstractFileSystem implements FileSystem {
      * (such as "g+w") will not work properly. To ensure expected operation,
      * you need to prefix mode with a zero (0). eg. 0755
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file or directory does not exist
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * permissions could not be set
      */
     public function setPermissions(File $file, $permissions) {
@@ -202,7 +202,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * @return string|array when reading a file, a string with the content of
      * the file will be returned. When reading a directory, an array will be
      * returned containing File objects as value and the paths as key.
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file or directory could not be read
      */
     public function read(File $file, $recursive = false) {
@@ -217,7 +217,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * Read a file
      * @param File $file file to read
      * @return string the content of the file
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file could not be read
      */
     protected function readFile(File $file) {
@@ -239,7 +239,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * @param boolean $recursive true to read the subdirectories, false
      * (default) to only read the given directory
      * @return array Array with a File object as value and it's path as key
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * directory could not be read
      */
     protected function readDirectory(File $dir, $recursive = false) {
@@ -284,7 +284,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * @param boolean $append true to append to file, false (default) to
      * overwrite the file
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file could not be written
      */
     public function write(File $file, $content = '', $append = false) {
@@ -309,7 +309,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * Create a directory
      * @param File $dir
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * directory could not be created
      */
     public function create(File $dir) {
@@ -331,7 +331,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * Delete a file or directory
      * @param File $file
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file or directory could not be deleted
      */
     public function delete(File $file) {
@@ -346,7 +346,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * Delete a file
      * @param File $file
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file could not be deleted
      */
     protected function deleteFile(File $file) {
@@ -364,7 +364,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * Delete a directory
      * @param File $dir
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * directory could not be read or deleted
      */
     protected function deleteDirectory(File $dir) {
@@ -395,7 +395,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * @param File $source
      * @param File $destination
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * source could not be copied
      */
     public function copy(File $source, File $destination) {
@@ -411,7 +411,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * @param File $source
      * @param File $destination
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * source could not be copied
      */
     protected function copyFile(File $source, File $destination) {
@@ -440,7 +440,7 @@ abstract class AbstractFileSystem implements FileSystem {
      * @param File $source
      * @param File $destination
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * source could not be read
      */
     protected function copyDirectory(File $source, File $destination) {
