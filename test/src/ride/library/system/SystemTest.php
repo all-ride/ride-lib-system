@@ -1,10 +1,10 @@
 <?php
 
-namespace pallo\library\system;
+namespace ride\library\system;
 
-use pallo\library\system\exception\SystemException;
-use pallo\library\system\file\UnixFileSystem;
-use pallo\library\system\file\WindowsFileSystem;
+use ride\library\system\exception\SystemException;
+use ride\library\system\file\UnixFileSystem;
+use ride\library\system\file\WindowsFileSystem;
 
 use \PHPUnit_Framework_TestCase;
 
@@ -40,7 +40,7 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetFileSystemOnUnix() {
-        $system = $this->getMock('pallo\\library\\system\\System', array('isUnix', 'isWindows'));
+        $system = $this->getMock('ride\\library\\system\\System', array('isUnix', 'isWindows'));
         $system->expects($this->any())->method('isUnix')->will($this->returnValue(true));
         $system->expects($this->any())->method('isWindows')->will($this->returnValue(false));
 
@@ -52,7 +52,7 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetFileSystemOnWindows() {
-        $system = $this->getMock('pallo\\library\\system\\System', array('isUnix', 'isWindows'));
+        $system = $this->getMock('ride\\library\\system\\System', array('isUnix', 'isWindows'));
         $system->expects($this->any())->method('isUnix')->will($this->returnValue(false));
         $system->expects($this->any())->method('isWindows')->will($this->returnValue(true));
 
@@ -62,10 +62,10 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\SystemException
+     * @expectedException ride\library\system\exception\SystemException
      */
     public function testGetFileSystemOnUnsupportedSystemThrowsException() {
-        $system = $this->getMock('pallo\\library\\system\\System', array('isUnix', 'isWindows'));
+        $system = $this->getMock('ride\\library\\system\\System', array('isUnix', 'isWindows'));
         $system->expects($this->any())->method('isUnix')->will($this->returnValue(false));
         $system->expects($this->any())->method('isWindows')->will($this->returnValue(false));
 
@@ -73,7 +73,7 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetClientInCli() {
-        $system = $this->getMock('pallo\\library\\system\\System', array('isCli'));
+        $system = $this->getMock('ride\\library\\system\\System', array('isCli'));
         $system->expects($this->any())->method('isCli')->will($this->returnValue(true));
 
         $_SERVER['USER'] = 'user';
@@ -92,7 +92,7 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetClientInHttp() {
-        $system = $this->getMock('pallo\\library\\system\\System', array('isCli'));
+        $system = $this->getMock('ride\\library\\system\\System', array('isCli'));
         $system->expects($this->any())->method('isCli')->will($this->returnValue(false));
 
         $_SERVER['HTTP_CLIENT_IP'] = 'clientIp';
@@ -130,7 +130,7 @@ class SystemTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider providerExecuteThrowsExceptionOnInvalidCommand
-     * @expectedException pallo\library\system\exception\SystemException
+     * @expectedException ride\library\system\exception\SystemException
      */
     public function testExecuteThrowsExceptionOnInvalidCommand($command) {
         $this->system->execute($command);

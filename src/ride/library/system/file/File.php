@@ -1,8 +1,8 @@
 <?php
 
-namespace pallo\library\system\file;
+namespace ride\library\system\file;
 
-use pallo\library\system\exception\FileSystemException;
+use ride\library\system\exception\FileSystemException;
 
 /**
  * File data object, facade for the file system library
@@ -17,7 +17,7 @@ class File {
 
     /**
      * Instance of the file system
-     * @var pallo\library\system\file\FileSystem
+     * @var ride\library\system\file\FileSystem
      */
     protected $fs;
 
@@ -35,10 +35,10 @@ class File {
 
     /**
      * Construct a file object
-     * @param pallo\library\system\file\FileSystem $fileSystem
+     * @param ride\library\system\file\FileSystem $fileSystem
      * @param string|File $path
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * path is empty
      */
     public function __construct(FileSystem $fileSystem, $path) {
@@ -61,7 +61,7 @@ class File {
 
     /**
      * Gets the file system
-     * @return pallo\library\system\file\FileSystem
+     * @return ride\library\system\file\FileSystem
      */
     public function getFileSystem() {
         return $this->fs;
@@ -101,7 +101,7 @@ class File {
      * Gets a child of this file
      * @param string|File $path
      * @return File
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * provided path is absolute
      */
     public function getChild($path) {
@@ -340,7 +340,7 @@ class File {
      * @param boolean $recursive When reading a directory: true to read subdirectories, false to read only the direct children
      * @return string|array if the file is not a directory, the contents of the file will be returned
      *          in a string, else the files in the directory will be returned in an array
-     * @throws pallo\library\system\exception\FileSystemException when the file or directory could not be read
+     * @throws ride\library\system\exception\FileSystemException when the file or directory could not be read
      */
     public function read($recursive = false) {
         return $this->fs->read($this, $recursive);
@@ -352,7 +352,7 @@ class File {
      * @param boolean $append Set to true to append to the file, false to
      * overwrite (default)
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file could not be written
      */
     public function write($content = '', $append = false) {
@@ -362,7 +362,7 @@ class File {
     /**
      * Creates a new directory
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * directory could not be created
      */
     public function create() {
@@ -372,7 +372,7 @@ class File {
     /**
      * Deletes this file or directory
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file or directory could not be deleted
      */
     public function delete() {
@@ -383,7 +383,7 @@ class File {
      * Copy this file
      * @param File $destination
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file could not be copied
      */
     public function copy(File $destination) {
@@ -394,7 +394,7 @@ class File {
      * Move this file
      * @param File $destination
      * @return null
-     * @throws pallo\library\system\exception\FileSystemException when the
+     * @throws ride\library\system\exception\FileSystemException when the
      * file could not be moved
      */
     public function move(File $destination) {

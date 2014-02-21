@@ -1,8 +1,8 @@
 <?php
 
-namespace pallo\library\system\file;
+namespace ride\library\system\file;
 
-use pallo\library\system\exception\FileSystemException;
+use ride\library\system\exception\FileSystemException;
 
 use \PHPUnit_Framework_TestCase;
 
