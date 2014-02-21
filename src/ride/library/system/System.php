@@ -1,10 +1,10 @@
 <?php
 
-namespace pallo\library\system;
+namespace ride\library\system;
 
-use pallo\library\system\exception\SystemException;
-use pallo\library\system\file\UnixFileSystem;
-use pallo\library\system\file\WindowsFileSystem;
+use ride\library\system\exception\SystemException;
+use ride\library\system\file\UnixFileSystem;
+use ride\library\system\file\WindowsFileSystem;
 
 /**
  * System functions
@@ -13,7 +13,7 @@ class System {
 
     /**
      * Instance of the file system
-     * @var pallo\library\system\file\FileSystem
+     * @var ride\library\system\file\FileSystem
      */
     protected $fs;
 
@@ -54,8 +54,8 @@ class System {
 
     /**
      * Gets the file system
-     * @return \pallo\library\system\pallo\library\system\file\FileSystem
-     * @throws pallo\library\system\exception\Exception when the file
+     * @return \ride\library\system\ride\library\system\file\FileSystem
+     * @throws ride\library\system\exception\Exception when the file
      * system is not supported
      */
     public function getFileSystem() {
@@ -112,9 +112,9 @@ class System {
      * @param string $command Command string
      * @param integer $code Return code of the command
      * @return array Output of the command
-     * @throws pallo\library\system\exception\Exception when the provided
+     * @throws ride\library\system\exception\Exception when the provided
      * command is empty or not a string
-     * @throws pallo\library\system\exception\Exception when the command could
+     * @throws ride\library\system\exception\Exception when the command could
      * not be executed
      */
     public function execute($command, &$code = null) {

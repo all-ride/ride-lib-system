@@ -1,15 +1,15 @@
 <?php
 
-namespace pallo\library\system\file;
+namespace ride\library\system\file;
 
-use pallo\library\system\System;
+use ride\library\system\System;
 
 use \PHPUnit_Framework_TestCase;
 
 class FileSystemTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @var pallo\library\system\file\FileSystem
+     * @var ride\library\system\file\FileSystem
      */
     protected $fs;
 
@@ -126,7 +126,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testGetModificationTimeThrowsExceptionWhenFileDoesNotExist() {
         $file = $this->fs->getFile('unexistant');
@@ -146,7 +146,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testGetSizeThrowsExceptionWhenFileDoesNotExist() {
         $file = $this->fs->getFile('unexistant');
@@ -155,7 +155,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testGetSizeThrowsExceptionWhenFileIsDirectory() {
         $file = $this->fs->getFile(__DIR__);
@@ -192,7 +192,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testGetPermissionsThrowsExceptionWhenFileDoesNotExist() {
         $file = $this->fs->getFile('unexistant');
@@ -216,7 +216,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testSetPermissionsThrowsExceptionWhenFileDoesNotExist() {
         $file = $this->fs->getFile('unexistant');
@@ -257,9 +257,9 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
 
         $dir = $this->fs->getFile($basePath);
         $expectations = array(
-            $basePath . '/src/pallo/library/system/exception/FileSystemException.php',
-            $basePath . '/src/pallo/library/system/file/File.php',
-            $basePath . '/test/src/pallo/library/system/file/FileTest.php',
+            $basePath . '/src/ride/library/system/exception/FileSystemException.php',
+            $basePath . '/src/ride/library/system/file/File.php',
+            $basePath . '/test/src/ride/library/system/file/FileTest.php',
         );
 
         $content = $this->fs->read($dir, true);
@@ -271,7 +271,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testReadThrowsExceptionWhenFileDoesNotExist() {
         $file = $this->fs->getFile('unexistant');
@@ -298,7 +298,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testWriteThrowsExceptionWhenFileIsNotWritable() {
         $file = tempnam(sys_get_temp_dir(), 'file-system-test');
@@ -330,7 +330,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testCreateThrowsExceptionWhenFileIsNotWritable() {
         $file = $this->fs->getFile('/not_writable');
@@ -376,10 +376,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCopyFile() {
-        $source = $this->fs->getFile('/tmp/pallo/source');
+        $source = $this->fs->getFile('/tmp/ride/source');
         $this->fs->write($source, 'contents');
 
-        $destination = $this->fs->getFile('/tmp/pallo/source.copy');
+        $destination = $this->fs->getFile('/tmp/ride/source.copy');
         if ($destination->exists()) {
             $destination->delete();
         }
@@ -418,7 +418,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testCopyWithUnexistingFileThrowsException() {
         $source = $this->fs->getFile('unexistant');
@@ -428,12 +428,12 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testMoveFile() {
-        $source = $this->fs->getFile('/tmp/pallo/source');
+        $source = $this->fs->getFile('/tmp/ride/source');
         $this->fs->write($source, 'contents');
 
         $sourceSize = $this->fs->getSize($source);
 
-        $destination = $this->fs->getFile('/tmp/pallo/source.move');
+        $destination = $this->fs->getFile('/tmp/ride/source.move');
         if ($this->fs->exists($destination)) {
             $this->fs->delete($destination);
         }
@@ -469,7 +469,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testMoveWithUnexistingFileThrowsException() {
         $source = $this->fs->getFile('unexistant');

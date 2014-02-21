@@ -1,13 +1,13 @@
 <?php
 
-namespace pallo\library\system\file;
+namespace ride\library\system\file;
 
 use \PHPUnit_Framework_TestCase;
 
 class UnixFileSystemTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @var pallo\library\system\file\WindowsFileSystem
+     * @var ride\library\system\file\WindowsFileSystem
      */
     protected $fs;
 
