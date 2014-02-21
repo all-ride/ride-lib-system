@@ -1,6 +1,6 @@
-# Pallo: System Library
+# Ride: System Library
 
-System abstraction library of the PHP Pallo framework.
+System abstraction library of the PHP Ride framework.
 
 ## Code Sample
 
@@ -8,7 +8,7 @@ Check this code sample to see the possibilities of this library:
 
     <?php
     
-    use pallo\library\system\System;
+    use ride\library\system\System;
 
     $system = new System();
     
