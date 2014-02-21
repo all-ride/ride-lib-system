@@ -1,18 +1,18 @@
 <?php
 
-namespace pallo\library\system\file;
+namespace ride\library\system\file;
 
 use \PHPUnit_Framework_TestCase;
 
-class UnixFileSystemTest extends PHPUnit_Framework_TestCase {
+class WindowsFileSystemTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @var pallo\library\system\file\WindowsFileSystem
+     * @var ride\library\system\file\WindowsFileSystem
      */
     protected $fs;
 
     public function setUp() {
-        $this->fs = new UnixFileSystem();
+        $this->fs = new WindowsFileSystem();
     }
 
     /**
@@ -29,6 +29,9 @@ class UnixFileSystemTest extends PHPUnit_Framework_TestCase {
            array(false, 'test/test.txt'),
            array(false, 'test.txt'),
            array(true, '/'),
+           array(true, 'C:/'),
+           array(false, '/C'),
+           array(true, '/C/'),
            array(false, ''),
         );
     }
@@ -46,8 +49,11 @@ class UnixFileSystemTest extends PHPUnit_Framework_TestCase {
         return array(
            array(false, 'test/test.txt'),
            array(false, 'test.txt'),
-           array(true, '/tmp/test.txt'),
-           array(true, 'phar:///tmp/test.txt'),
+           array(true, 'C:/tmp/test.txt'),
+           array(true, 'C:\\tmp\\test.txt'),
+           array(true, 'D:\\Documents\\test.txt'),
+           array(true, '\\\\server\\path\\file.txt'),
+           array(true, 'phar://C:/tmp/test.txt'),
            array(false, 'phar://test.phar/tmp/test.txt'),
         );
     }
@@ -63,10 +69,11 @@ class UnixFileSystemTest extends PHPUnit_Framework_TestCase {
 
     public function providerGetAbsolutePath() {
         return array(
+           array(getcwd(), '.'),
            array(getcwd() . '/test/test.txt', 'test/.././test/.//./test.txt'),
            array(getcwd() . '/test/test.txt', getcwd() . '/test/.././test/.//./test.txt'),
            array('phar://' . getcwd() . '/modules/test.phar', 'phar://modules/test.phar'),
-           array('phar://' . getcwd() . '/modules/test.phar/file.txt', 'modules/test.phar/file.txt'),
+           array('phar://D:/modules/test.phar/file.txt', 'D:/modules/test.phar/file.txt'),
         );
     }
 
@@ -76,17 +83,18 @@ class UnixFileSystemTest extends PHPUnit_Framework_TestCase {
     public function testGetParent($expected, $value) {
         $file = $this->fs->getFile($value);
 
-        $this->assertEquals($expected, $this->fs->getParent($file));
+        $this->assertEquals($this->fs->getFile($expected), $this->fs->getParent($file));
     }
 
     public function providerGetParent() {
-        $fs = new UnixFileSystem();
-
         return array(
-           array(new File($fs, 'test'), 'test/test.txt'),
-           array(new File($fs, getcwd()), 'test.txt'),
-           array(new File($fs, '/'), '/root'),
-           array(new File($fs, '/'), '/'),
+           array('test', 'test/test.txt'),
+           array(getcwd(), 'test.txt'),
+           array('/', '/root'),
+           array('/', '/'),
+           array('C:/folder', 'C:/folder/test.txt'),
+           array('C:/', 'C:/test.txt'),
+           array('C:/', 'C:/'),
         );
     }
 

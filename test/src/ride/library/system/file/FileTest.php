@@ -1,15 +1,15 @@
 <?php
 
-namespace pallo\library\system\file;
+namespace ride\library\system\file;
 
-use pallo\library\system\System;
+use ride\library\system\System;
 
 use \PHPUnit_Framework_TestCase;
 
 class FileTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @var pallo\library\system\file\FileSystem
+     * @var ride\library\system\file\FileSystem
      */
     protected $fs;
 
@@ -72,14 +72,14 @@ class FileTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testConstructWithInvalidPathThrowsException() {
         $file = new File($this->fs, '');
     }
 
     /**
-     * @expectedException pallo\library\system\exception\FileSystemException
+     * @expectedException ride\library\system\exception\FileSystemException
      */
     public function testGetChildWithAbsoluteChildThrowsException() {
         $file = new File($this->fs, 'test/test');

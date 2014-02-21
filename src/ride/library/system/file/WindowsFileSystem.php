@@ -1,6 +1,6 @@
 <?php
 
-namespace pallo\library\system\file;
+namespace ride\library\system\file;
 
 /**
  * Filesystem implementation for Windows filesystems
