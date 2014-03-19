@@ -3,6 +3,7 @@
 namespace ride\library\system;
 
 use ride\library\system\exception\SystemException;
+use ride\library\system\file\File;
 use ride\library\system\file\UnixFileSystem;
 use ride\library\system\file\WindowsFileSystem;
 
@@ -108,16 +109,55 @@ class System {
     }
 
     /**
-     * Executes a command on the system
+     * Executes a command or multiple commands on the system
+     * @param string|array $command Command string or array of command strings
+     * @param integer $code Return code of the command
+     * @return array Output of the command(s)
+     * @throws ride\library\system\exception\SystemException when the command
+     * could not be executed
+     */
+    public function execute($command, &$code = null) {
+        if (is_array($command)) {
+            return $this->executeCommands($command, $code);
+        } else {
+            return $this->executeCommand($command, $code);
+        }
+    }
+
+    /**
+     * Executes a command or multiple commands on the system in the user's
+     * environment
+     * @param string|array $command Command string or array of command strings
+     * @param integer $code Return code of the command
+     * @return array Output of the command(s)
+     * @throws ride\library\system\exception\SystemException when the command
+     * could not be executed
+     */
+    public function executeInShell($commands, &$code = null) {
+        if (!$this->isUnix()) {
+            throw new SystemException('Could not execute commands in shell: only supported on *nix systems');
+        }
+
+        $user = trim(shell_exec('whoami'));
+        $home = trim(shell_exec('cd ~' . $user . ' && pwd'));
+
+        $commands = array_merge(array(
+            "export HOME=" . $home,
+            "export DISPLAY=:0",
+        ), (array) $commands);
+
+        return $this->executeCommands($commands, $code);
+    }
+
+    /**
+     * Executes a single command on the system
      * @param string $command Command string
      * @param integer $code Return code of the command
      * @return array Output of the command
-     * @throws ride\library\system\exception\Exception when the provided
-     * command is empty or not a string
-     * @throws ride\library\system\exception\Exception when the command could
-     * not be executed
+     * @throws ride\library\system\exception\SystemException when the command
+     * could not be executed
      */
-    public function execute($command, &$code = null) {
+    protected function executeCommand($command, &$code = null) {
         if (!is_string($command) || $command == '') {
             throw new SystemException('Could not execute command: provided command is empty or not a string');
         }
@@ -127,10 +167,96 @@ class System {
         exec($command, $output, $code);
 
         if ($code == 127) {
-            throw new SystemException('Could not execute ' . $command);
+            throw new SystemException('Could not execute ' . $command . ': command not found');
         }
 
         return $output;
+    }
+
+    /**
+     * Executes multiple commands through a generated script
+     * @param array $commands Array of command strings
+     * @param integer $code Return code of the generated script
+     * @return array Output of the generated script
+     * @throws ride\library\system\exception\SystemException when the commands
+     * could not be executed
+     */
+    protected function executeCommands(array $commands, $code = null) {
+        $fileSystem = $this->getFileSystem();
+
+        $fileScript = $fileSystem->getTemporaryFile();
+        $fileLog = $fileScript->getParent()->getChild($fileScript->getName() . '.out');
+
+        $command = $this->generateCommand($commands, $fileScript, $fileLog);
+
+        try {
+            $this->executeCommand($command);
+
+            if ($fileLog->exists()) {
+                $output = trim($fileLog->read());
+
+                if ($output) {
+                    $output = explode("\n", $output);
+                }
+            } else {
+                $output = array();
+            }
+        } catch (SystemException $exception) {
+            throw $exception;
+        } finally {
+            if ($fileScript->exists()) {
+                // $fileScript->delete();
+            }
+
+            if ($fileLog->exists()) {
+                // $fileLog->delete();
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Generates a command to execute multiple commands at once in the same
+     * context
+     * @param array $commands Array with command strings
+     * @param \ride\library\system\file\File $fileScript Temporary file to
+     * generate a script into
+     * @param \ride\library\system\file\File $fileScript Temporary file to
+     * catch the output of the script
+     * @return string Command which executes the provided commands
+     * @throws ride\library\system\exception\SystemException when no valid
+     * commands are provided or when not supported for the current system
+     */
+    protected function generateCommand(array $commands, File $fileScript, File $fileLog) {
+        if (!$this->isUnix()) {
+            throw new SystemException('Could not generate command: only supported for *nix systems');
+        }
+
+        $script = '';
+        foreach ($commands as $command) {
+            $command = trim($command);
+            if (!$command) {
+                continue;
+            }
+
+            $script .= "echo \"# executing command: " . $command . "\"\n" . $command;
+            if (substr($command, -1) != '&') {
+                $script .= " || exit $?";
+            }
+
+            $script .= "\n";
+        }
+
+        if (!$script) {
+            throw new SystemException('Could not generate script: no valid commands provided');
+        }
+
+        $script = "#/bin/sh\n\n" . $script;
+
+        $fileScript->write($script);
+
+        return 'sh ' . $fileScript . ' >> ' . $fileLog . ' 2>> ' . $fileLog;
     }
 
 }
