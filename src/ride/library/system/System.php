@@ -188,6 +188,7 @@ class System {
         $fileLog = $fileScript->getParent()->getChild($fileScript->getName() . '.out');
 
         $command = $this->generateCommand($commands, $fileScript, $fileLog);
+        $commandException = null;
 
         try {
             $this->executeCommand($command);
@@ -202,15 +203,19 @@ class System {
                 $output = array();
             }
         } catch (SystemException $exception) {
-            throw $exception;
-        } finally {
-            if ($fileScript->exists()) {
-                // $fileScript->delete();
-            }
+            $commandException = $exception;
+        }
 
-            if ($fileLog->exists()) {
-                // $fileLog->delete();
-            }
+        if ($fileScript->exists()) {
+            $fileScript->delete();
+        }
+
+        if ($fileLog->exists()) {
+            $fileLog->delete();
+        }
+
+        if ($commandException) {
+            throw $commandException;
         }
 
         return $output;
