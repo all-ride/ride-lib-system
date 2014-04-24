@@ -12,13 +12,13 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Application directory
-     * @var ride\library\system\file\File
+     * @var \ride\library\system\file\File
      */
     protected $applicationDirectory;
 
     /**
      * Public directory
-     * @var ride\library\system\file\File
+     * @var \ride\library\system\file\File
      */
     protected $publicDirectory;
 
@@ -36,7 +36,7 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Gets the instance of the file system
-     * @return ride\library\system\file\FileSystem
+     * @return \ride\library\system\file\FileSystem
      */
     public function getFileSystem() {
         if ($this->applicationDirectory) {
@@ -56,7 +56,7 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Adds a include directory.
-     * @param ride\library\system\file\File $directory
+     * @param \ride\library\system\file\File $directory
      * @return null
      */
     public function addIncludeDirectory(File $directory) {
@@ -65,7 +65,7 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Removes a include directory
-     * @param ride\library\system\file\File $directory
+     * @param \ride\library\system\file\File $directory
      * @return null
      */
     public function removeIncludeDirectory($directory) {
@@ -81,7 +81,7 @@ class GenericFileBrowser implements FileBrowser {
     /**
      * Gets the first file in the include paths
      * @param string $file Relative path of a file in the include paths
-     * @return ride\library\system\file\File|null Instance of the file if found,
+     * @return \ride\library\system\file\File|null Instance of the file if found,
      * null otherwise
      */
     public function getIncludeDirectories() {
@@ -90,7 +90,7 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Sets the application directory
-     * @param string|ride\library\system\file\File $directory
+     * @param string|\ride\library\system\file\File $directory
      * @return null
      */
     public function setApplicationDirectory(File $directory) {
@@ -106,7 +106,7 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Gets the application directory
-     * @return ride\library\system\file\File
+     * @return \ride\library\system\file\File
      */
     public function getApplicationDirectory() {
         return $this->applicationDirectory;
@@ -114,7 +114,7 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Sets the public directory
-     * @param string|ride\library\system\file\File $directory
+     * @param string|\ride\library\system\file\File $directory
      * @return null
      */
     public function setPublicDirectory(File $directory) {
@@ -123,7 +123,7 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Gets the public directory
-     * @return ride\library\system\file\File
+     * @return \ride\library\system\file\File
      */
     public function getPublicDirectory() {
         return $this->publicDirectory;
@@ -149,7 +149,7 @@ class GenericFileBrowser implements FileBrowser {
     /**
      * Gets the first file in the public domain
      * @param string $file Relative path of a file in the public domain
-     * @return ride\library\system\file\File|null Instance of the file if found,
+     * @return \ride\library\system\file\File|null Instance of the file if found,
      * null otherwise
      */
     public function getPublicFile($file) {
@@ -172,7 +172,7 @@ class GenericFileBrowser implements FileBrowser {
     /**
      * Gets the first file in the include paths
      * @param string $file Relative path of a file in the include paths
-     * @return ride\library\system\file\File|null Instance of the file if found,
+     * @return \ride\library\system\file\File|null Instance of the file if found,
      * null otherwise
      */
     public function getFile($file) {
@@ -183,7 +183,7 @@ class GenericFileBrowser implements FileBrowser {
      * Gets all the files in the include paths
      * @param string $file Relative path of a file in the include paths
      * @return array array with File instances
-     * @see ride\library\system\file\File
+     * @see \ride\library\system\file\File
      */
     public function getFiles($file) {
         return $this->lookupFile($file, false);
@@ -195,9 +195,9 @@ class GenericFileBrowser implements FileBrowser {
      * structure
      * @param boolean $firstOnly True to get the first matched file, false to
      * get an array with all the matched files
-     * @return ride\library\system\file\File|array Depending on the firstOnly
+     * @return \ride\library\system\file\File|array Depending on the firstOnly
      * flag, an instance of ride\library\system\file\File or an array
-     * @throws ride\library\system\exception\FileSystemException when the
+     * @throws \ride\library\system\exception\FileSystemException when the
      * provided file name is empty or not a string
      */
     protected function lookupFile($fileName, $firstOnly) {
@@ -231,12 +231,12 @@ class GenericFileBrowser implements FileBrowser {
 
     /**
      * Gets the relative file in the include paths for a given absolute file
-     * @param string|ride\library\system\file\File $file Path to a file to get
+     * @param string|\ride\library\system\file\File $file Path to a file to get
      * the relative file from
      * @param boolean $public Set to true to check the public directory as well
-     * @return ride\library\system\file\File relative file in the file system
+     * @return \ride\library\system\file\File relative file in the file system
      * structure if located in one of the include paths
-     * @throws ride\library\system\exception\FileSystemException when the
+     * @throws \ride\library\system\exception\FileSystemException when the
      * provided file is not in one of the include paths
      */
     public function getRelativeFile($file, $public = false) {

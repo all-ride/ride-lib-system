@@ -14,7 +14,7 @@ class System {
 
     /**
      * Instance of the file system
-     * @var ride\library\system\file\FileSystem
+     * @var \ride\library\system\file\FileSystem
      */
     protected $fs;
 
@@ -55,8 +55,8 @@ class System {
 
     /**
      * Gets the file system
-     * @return \ride\library\system\ride\library\system\file\FileSystem
-     * @throws ride\library\system\exception\Exception when the file
+     * @return \ride\library\system\file\FileSystem
+     * @throws \ride\library\system\exception\Exception when the file
      * system is not supported
      */
     public function getFileSystem() {
@@ -113,7 +113,7 @@ class System {
      * @param string|array $command Command string or array of command strings
      * @param integer $code Return code of the command
      * @return array Output of the command(s)
-     * @throws ride\library\system\exception\SystemException when the command
+     * @throws \ride\library\system\exception\SystemException when the command
      * could not be executed
      */
     public function execute($command, &$code = null) {
@@ -130,7 +130,7 @@ class System {
      * @param string|array $command Command string or array of command strings
      * @param integer $code Return code of the command
      * @return array Output of the command(s)
-     * @throws ride\library\system\exception\SystemException when the command
+     * @throws \ride\library\system\exception\SystemException when the command
      * could not be executed
      */
     public function executeInShell($commands, &$code = null) {
@@ -154,7 +154,7 @@ class System {
      * @param string $command Command string
      * @param integer $code Return code of the command
      * @return array Output of the command
-     * @throws ride\library\system\exception\SystemException when the command
+     * @throws \ride\library\system\exception\SystemException when the command
      * could not be executed
      */
     protected function executeCommand($command, &$code = null) {
@@ -178,7 +178,7 @@ class System {
      * @param array $commands Array of command strings
      * @param integer $code Return code of the generated script
      * @return array Output of the generated script
-     * @throws ride\library\system\exception\SystemException when the commands
+     * @throws \ride\library\system\exception\SystemException when the commands
      * could not be executed
      */
     protected function executeCommands(array $commands, &$code = null) {
@@ -230,7 +230,7 @@ class System {
      * @param \ride\library\system\file\File $fileScript Temporary file to
      * catch the output of the script
      * @return string Command which executes the provided commands
-     * @throws ride\library\system\exception\SystemException when no valid
+     * @throws \ride\library\system\exception\SystemException when no valid
      * commands are provided or when not supported for the current system
      */
     protected function generateCommand(array $commands, File $fileScript, File $fileLog) {

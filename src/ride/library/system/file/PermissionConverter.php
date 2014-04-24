@@ -73,7 +73,7 @@ class PermissionConverter {
      * Converts numeric permissions to octal permissions
      * @param int $numericPermissions
      * @return int Octal permissions
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid numeric permissions value
      */
     public function convertNumericToOctal($numericPermissions) {
@@ -86,7 +86,7 @@ class PermissionConverter {
      * Converts numeric permissions to permissions in the rwx format
      * @param int $numericPermissions
      * @return string Permissions in the rwx format
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid numeric permissions value
      */
     public function convertNumericToRwx($numericPermissions) {
@@ -125,7 +125,7 @@ class PermissionConverter {
      * Convert octal permissions to permissions in the rwx format.
      * @param int $octalPermissions Octal permissions
      * @return string Permissions in the rwx format (eg. rwxr--r--)
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid octal permissions value
      */
     public function convertOctalToRwx($octalPermissions) {
@@ -138,7 +138,7 @@ class PermissionConverter {
      * Converts octal permissions to the numeric permissions
      * @param int $octalPermissions Octal permissions
      * @return string Permissions in the numeric format (eg. 744)
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid octal permissions value
      */
     public function convertOctalToNumeric($octalPermissions) {
@@ -152,7 +152,7 @@ class PermissionConverter {
      * @param string $rwxPermissions Permissions in the rwx format
      * (eg. rwxr-xr-x)
      * @return int Numeric permissions (eg. 755)
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid rwx permissions value
      */
     public function convertRwxToNumeric($rwxPermissions) {
@@ -180,7 +180,7 @@ class PermissionConverter {
      * @param string $rwxPermissions Permissions in the rwx format
      * (eg. rwxr-xr-x)
      * @return int Numeric permissions (eg. 755)
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid rwx permissions value
      */
     public function convertRwxToOctal($rwxPermissions) {
@@ -193,7 +193,7 @@ class PermissionConverter {
      * Checks if the provided numeric permissions is a valid value
      * @param int $numericPermissions Numeric permissions
      * @return null
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid numeric permissions value
      */
     private function checkNumericPermissions($numericPermissions) {
@@ -206,7 +206,7 @@ class PermissionConverter {
      * Checks if the provided octal permissions is a valid value
      * @param int $octalPermissions Octal permissions
      * @return null
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid octal permissions value
      */
     private function checkOctalPermissions($octalPermissions) {
@@ -224,7 +224,7 @@ class PermissionConverter {
      * Checks if the provided rwx permissions is a valid value
      * @param string $rwxPermissions Rwx permissions
      * @return null
-     * @throws ride\library\system\file\FileSystemException when the provided
+     * @throws \ride\library\system\file\FileSystemException when the provided
      * permissions is not a valid rwx permissions value
      */
     private function checkRwxPermissions($rwxPermissions) {

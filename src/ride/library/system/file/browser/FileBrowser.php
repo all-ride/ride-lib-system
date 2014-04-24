@@ -9,7 +9,7 @@ interface FileBrowser {
 
     /**
      * Gets the instance of the file system
-     * @return ride\library\system\file\FileSystem
+     * @return \ride\library\system\file\FileSystem
      */
     public function getFileSystem();
 
@@ -23,20 +23,20 @@ interface FileBrowser {
 
     /**
      * Gets the application directory
-     * @return ride\library\system\file\File
+     * @return \ride\library\system\file\File
      */
     public function getApplicationDirectory();
 
     /**
      * Gets the public directory
-     * @return ride\library\system\file\File
+     * @return \ride\library\system\file\File
      */
     public function getPublicDirectory();
 
     /**
      * Gets the first file in the public domain
      * @param string $file Relative path of a file in the public domain
-     * @return ride\library\system\file\File|null Instance of the file if found,
+     * @return \ride\library\system\file\File|null Instance of the file if found,
      * null otherwise
      */
     public function getPublicFile($file);
@@ -44,7 +44,7 @@ interface FileBrowser {
     /**
      * Gets the first file in the include paths
      * @param string $file Relative path of a file in the include paths
-     * @return ride\library\system\file\File|null Instance of the file if found,
+     * @return \ride\library\system\file\File|null Instance of the file if found,
      * null otherwise
      */
     public function getFile($file);
@@ -53,18 +53,18 @@ interface FileBrowser {
      * Gets all the files in the include paths
      * @param string $file Relative path of a file in the include paths
      * @return array array with File instances
-     * @see ride\library\system\file\File
+     * @see \ride\library\system\file\File
      */
     public function getFiles($file);
 
     /**
      * Gets the relative file in the include paths for a given absolute file
-     * @param string|ride\library\system\file\File $file Path to a file to get
+     * @param string|\ride\library\system\file\File $file Path to a file to get
      * the relative file from
      * @param boolean $public Set to true to check the public directory as well
-     * @return ride\library\system\file\File relative file in the file system
+     * @return \ride\library\system\file\File relative file in the file system
      * structure if located in one of the include paths
-     * @throws ride\library\system\exception\FileSystemException when the
+     * @throws \ride\library\system\exception\FileSystemException when the
      * provided file is not in one of the include paths
      */
     public function getRelativeFile($file, $public = false);
