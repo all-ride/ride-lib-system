@@ -181,7 +181,7 @@ class System {
      * @throws ride\library\system\exception\SystemException when the commands
      * could not be executed
      */
-    protected function executeCommands(array $commands, $code = null) {
+    protected function executeCommands(array $commands, &$code = null) {
         $fileSystem = $this->getFileSystem();
 
         $fileScript = $fileSystem->getTemporaryFile();
@@ -191,7 +191,7 @@ class System {
         $commandException = null;
 
         try {
-            $this->executeCommand($command);
+            $this->executeCommand($command, $code);
 
             if ($fileLog->exists()) {
                 $output = trim($fileLog->read());
