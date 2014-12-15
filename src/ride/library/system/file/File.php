@@ -128,15 +128,23 @@ class File {
      * Get the name of the file
      *
      * If you provide a path like /var/www/yoursite, the name will be yoursite
+     * @param boolean $trimExtension Set to true to trim the extension
      * @return string
      */
-    public function getName() {
+    public function getName($trimExtension = false) {
         $lastSeparator = strrpos($this->path, self::DIRECTORY_SEPARATOR);
         if ($lastSeparator === false) {
             return $this->path;
         }
 
-        return substr($this->path, $lastSeparator + 1);
+        $name = substr($this->path, $lastSeparator + 1);
+        if (!$trimExtension) {
+            return $name;
+        }
+
+        $extension = $this->getExtension();
+
+        return substr($name, 0, strlen($name) - strlen($extension) - 1);
     }
 
     /**
