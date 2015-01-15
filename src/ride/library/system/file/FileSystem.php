@@ -145,6 +145,16 @@ interface FileSystem {
     public function write(File $file, $content = '', $append = false);
 
     /**
+     * Sets the modification time of the provided file
+     * @param File $fiole File to touch
+     * @param integer $time Timestamp of the modification time
+     * @return null
+     * @throws \ride\library\system\exception\FileSystemException when the
+     * file could not be touched
+     */
+    public function touch(File $file, $time = null);
+
+    /**
      * Create a directory
      * @param File $dir
      * @return null

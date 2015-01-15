@@ -368,6 +368,17 @@ class File {
     }
 
     /**
+     * Sets the modification time of this file
+     * @param integer $time Timestamp of the modification time
+     * @return null
+     * @throws \ride\library\system\exception\FileSystemException when the
+     * file could not be touched
+     */
+    public function touch($time = null) {
+        $this->fs->touch($this, $time);
+    }
+
+    /**
      * Creates a new directory
      * @return null
      * @throws \ride\library\system\exception\FileSystemException when the

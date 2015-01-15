@@ -306,6 +306,30 @@ abstract class AbstractFileSystem implements FileSystem {
     }
 
     /**
+     * Sets the modification time of the provided file
+     * @param File $fiole File to touch
+     * @param integer $time Timestamp of the modification time
+     * @return null
+     * @throws \ride\library\system\exception\FileSystemException when the
+     * file could not be touched
+     */
+    public function touch(File $file, $time = null) {
+        $path = $this->getAbsolutePath($file);
+
+        if ($time === null) {
+            $time = time();
+        }
+
+        $stat = @touch($path, $time);
+
+        if ($stat === false) {
+            $error = error_get_last();
+
+            throw new FileSystemException('Could not touch ' . $path . ': ' . $error['message']);
+        }
+    }
+
+    /**
      * Create a directory
      * @param File $dir
      * @return null
