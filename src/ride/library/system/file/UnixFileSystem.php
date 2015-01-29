@@ -16,6 +16,15 @@ class UnixFileSystem extends AbstractFileSystem {
     }
 
     /**
+     * Checks whether a file is hidden.
+     * @param File $file
+     * @return boolean true when the file is hidden, false otherwise
+     */
+    public function isHidden(File $file) {
+        return substr($file->getName(), 0, 1) == '.';
+    }
+
+    /**
      * Check whether a has an absolute path
      * @param File $file
      * @return boolean true when the file has an absolute path

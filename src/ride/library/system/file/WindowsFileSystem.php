@@ -2,6 +2,8 @@
 
 namespace ride\library\system\file;
 
+use ride\library\system\exception\FileSystemException;
+
 /**
  * Filesystem implementation for Windows filesystems
  */
@@ -19,6 +21,15 @@ class WindowsFileSystem extends AbstractFileSystem {
         }
 
         return false;
+    }
+
+    /**
+     * Checks whether a file is hidden.
+     * @param File $file
+     * @return boolean true when the file is hidden, false otherwise
+     */
+    public function isHidden(File $file) {
+        throw new FileSystemException('Hidden status is not implemented for Windows');
     }
 
     /**
