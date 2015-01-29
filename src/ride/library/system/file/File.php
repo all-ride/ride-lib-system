@@ -143,6 +143,9 @@ class File {
         }
 
         $extension = $this->getExtension();
+        if (!$extension) {
+            return $name;
+        }
 
         return substr($name, 0, strlen($name) - strlen($extension) - 1);
     }
@@ -235,6 +238,14 @@ class File {
      */
     public function isRootPath() {
         return $this->isRootPath;
+    }
+
+    /**
+     * Checks whether this file is hidden
+     * @return boolean true when the file is hidden, false otherwise
+     */
+    public function isHidden() {
+        return $this->fs->isHidden($this);;
     }
 
     /**
