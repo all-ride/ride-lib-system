@@ -223,7 +223,31 @@ abstract class AbstractFileSystem implements FileSystem {
     protected function readFile(File $file) {
         $path = $this->getAbsolutePath($file);
 
+        // handle lock
+        $handle = null;
+        $isLocked = false;
+        if ($file->hasLock()) {
+            $handle = fopen($path, 'r');
+            if ($handle === false) {
+                throw new FileSystemException('Could not obtain lock for ' . $path);
+            }
+
+            $isLocked = flock($handle, LOCK_SH);
+            if (!$isLocked) {
+                throw new FileSystemException('Could not obtain lock for ' . $path);
+            }
+        }
+
+        // read contents
         $contents = @file_get_contents($path);
+
+        // handle unlock
+        if ($isLocked) {
+            flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+
+        // handle error
         if ($contents === false) {
             $error = error_get_last();
 
@@ -292,12 +316,15 @@ abstract class AbstractFileSystem implements FileSystem {
 
         $this->create($this->getParent($file));
 
+        $flags = 0;
         if ($append) {
-            $stat = @file_put_contents($path, $content, FILE_APPEND);
-        } else {
-            $stat = @file_put_contents($path, $content);
+            $flags |= FILE_APPEND;
+        }
+        if ($file->hasLock()) {
+            $flags |= LOCK_EX;
         }
 
+        $stat = @file_put_contents($path, $content, $flags);
         if ($stat === false) {
             $error = error_get_last();
 

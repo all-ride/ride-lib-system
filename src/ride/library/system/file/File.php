@@ -34,6 +34,12 @@ class File {
     protected $isRootPath;
 
     /**
+     * Flag to see if this file should be locked when reading or writing
+     * @var boolean
+     */
+    protected $hasLock;
+
+    /**
      * Construct a file object
      * @param \ride\library\system\file\FileSystem $fileSystem
      * @param string|File $path
@@ -43,6 +49,7 @@ class File {
      */
     public function __construct(FileSystem $fileSystem, $path) {
         $this->fs = $fileSystem;
+        $this->hasLock = false;
 
         $this->setPath($path);
 
@@ -87,6 +94,23 @@ class File {
         if (!$this->isRootPath) {
             $this->path = rtrim($this->path, self::DIRECTORY_SEPARATOR);
         }
+    }
+
+    /**
+     * Sets whether this file should locked when reading or writing
+     * @param boolean $hasLock Flag to see if the file should be locked
+     * @return null
+     */
+    public function setLock($hasLock) {
+        $this->hasLock = $hasLock;
+    }
+
+    /**
+     * Gets whether this file should be locked when reading or writing
+     * @return boolean
+     */
+    public function hasLock() {
+        return $this->hasLock;
     }
 
     /**

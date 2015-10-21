@@ -30,13 +30,15 @@ $fileSystem = $system->getFileSystem();
 $dir = $fileSystem->getFile('path/to/dir');
 $dir->isDirectory();
 $dir->isReadable();
+$files = $dir->read();
 
 $file = $fileSystem->getFile('path/to/file');
 $file->exists();
 $file->getModificationTime();
+$file->setLock(true);
+$content = $file->read();
 
 $destination = $dir->getChild($file->getName());
 $destination = $destination->getCopyFile();
 
 $file->copy($destination);
-```
