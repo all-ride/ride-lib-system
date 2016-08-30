@@ -129,23 +129,23 @@ class File {
      * provided path is absolute
      */
     public function getChild($path) {
-           $child = $this->fs->getFile($path);
-           if ($child->isAbsolute()) {
-               throw new FileSystemException('Could not get child for ' . $child->getPath() . ': path cannot be absolute');
-           }
+       $child = $this->fs->getFile($path);
+       if ($child->isAbsolute()) {
+           throw new FileSystemException('Could not get child for ' . $child->getPath() . ': path cannot be absolute');
+       }
 
-           $childPath = $child->getPath();
-           if ($child->hasPharProtocol()) {
-               $childPath = substr($childPath, 7);
-           }
+       $childPath = $child->getPath();
+       if ($child->hasPharProtocol()) {
+           $childPath = substr($childPath, 7);
+       }
 
-           if (!$this->isRootPath) {
-               $childPath = self::DIRECTORY_SEPARATOR . $childPath;
-           }
+       if (!$this->isRootPath) {
+           $childPath = self::DIRECTORY_SEPARATOR . $childPath;
+       }
 
-           $childPath = $this->path . $childPath;
+       $childPath = $this->path . $childPath;
 
-           return $this->fs->getFile($childPath);
+       return $this->fs->getFile($childPath);
     }
 
     /**
@@ -453,6 +453,18 @@ class File {
      */
     public function move(File $destination) {
         $this->fs->move($this, $destination);
+    }
+
+    /**
+     * Links this file
+     * @param File $destination Link destination
+     * @param boolean $hard Set to true to create a hard link
+     * @return null
+     * @throws \ride\library\system\exception\FileSystemException when the
+     * file could not be linked
+     */
+    public function link(File $destination, $hard = false) {
+        $this->fs->link($this, $destination, $hard);
     }
 
     /**

@@ -334,7 +334,7 @@ abstract class AbstractFileSystem implements FileSystem {
 
     /**
      * Sets the modification time of the provided file
-     * @param File $fiole File to touch
+     * @param File $file File to touch
      * @param integer $time Timestamp of the modification time
      * @return null
      * @throws \ride\library\system\exception\FileSystemException when the
@@ -467,7 +467,7 @@ abstract class AbstractFileSystem implements FileSystem {
      */
     protected function copyFile(File $source, File $destination) {
         $destinationParent = $destination->getParent();
-        $this->create($destinationParent);
+        $destinationParent->create();
 
         $sourcePath = $source->getAbsolutePath();
         $destinationPath = $destination->getAbsolutePath();
@@ -483,7 +483,8 @@ abstract class AbstractFileSystem implements FileSystem {
             throw new FileSystemException('Could not copy ' . $sourcePath . ' to ' . $destinationPath . ': ' . $error['message']);
         }
 
-        $this->setPermissions($destination, 0644); // $source->getPermissions());
+        $destination->setPermissions($source->getPermissions());
+        //$destination->setPermissions(0644);
     }
 
     /**
@@ -528,6 +529,32 @@ abstract class AbstractFileSystem implements FileSystem {
         } else {
             $this->copyFile($source, $destination);
             $this->delete($source);
+        }
+    }
+
+    /**
+     * Links a file
+     * @param File $source Source file for the link
+     * @param File $destination Link destination
+     * @param boolean $hard Set to true to create a hard link
+     * @return null
+     * @throws \ride\library\system\exception\FileSystemException when the
+     * file could not be linked
+     */
+    public function link(File $source, File $destination, $hard = false) {
+        $source = $this->getAbsolutePath($source);
+        $destination = $this->getAbsolutePath($destination);
+
+        if ($hard) {
+            $stat = @link($source, $destination);
+        } else {
+            $stat = @symlink($source, $destination);
+        }
+
+        if ($stat === false) {
+            $error = error_get_last();
+
+            throw new FileSystemException('Could not touch ' . $path . ': ' . $error['message']);
         }
     }
 
