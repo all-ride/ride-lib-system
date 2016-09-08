@@ -40,7 +40,9 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetFileSystemOnUnix() {
-        $system = $this->getMock('ride\\library\\system\\System', array('isUnix', 'isWindows'));
+        $system = $this->getMockBuilder('ride\\library\\system\\System')
+                       ->setMethods(array('isUnix', 'isWindows'))
+                       ->getMock();
         $system->expects($this->any())->method('isUnix')->will($this->returnValue(true));
         $system->expects($this->any())->method('isWindows')->will($this->returnValue(false));
 
@@ -52,7 +54,9 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetFileSystemOnWindows() {
-        $system = $this->getMock('ride\\library\\system\\System', array('isUnix', 'isWindows'));
+        $system = $this->getMockBuilder('ride\\library\\system\\System')
+                       ->setMethods(array('isUnix', 'isWindows'))
+                       ->getMock();
         $system->expects($this->any())->method('isUnix')->will($this->returnValue(false));
         $system->expects($this->any())->method('isWindows')->will($this->returnValue(true));
 
@@ -65,7 +69,9 @@ class SystemTest extends PHPUnit_Framework_TestCase {
      * @expectedException ride\library\system\exception\SystemException
      */
     public function testGetFileSystemOnUnsupportedSystemThrowsException() {
-        $system = $this->getMock('ride\\library\\system\\System', array('isUnix', 'isWindows'));
+        $system = $this->getMockBuilder('ride\\library\\system\\System')
+                       ->setMethods(array('isUnix', 'isWindows'))
+                       ->getMock();
         $system->expects($this->any())->method('isUnix')->will($this->returnValue(false));
         $system->expects($this->any())->method('isWindows')->will($this->returnValue(false));
 
@@ -73,7 +79,9 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetClientInCli() {
-        $system = $this->getMock('ride\\library\\system\\System', array('isCli'));
+        $system = $this->getMockBuilder('ride\\library\\system\\System')
+                       ->setMethods(array('isCli'))
+                       ->getMock();
         $system->expects($this->any())->method('isCli')->will($this->returnValue(true));
 
         $_SERVER['USER'] = 'user';
@@ -92,7 +100,9 @@ class SystemTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetClientInHttp() {
-        $system = $this->getMock('ride\\library\\system\\System', array('isCli'));
+        $system = $this->getMockBuilder('ride\\library\\system\\System')
+                       ->setMethods(array('isCli'))
+                       ->getMock();
         $system->expects($this->any())->method('isCli')->will($this->returnValue(false));
 
         $_SERVER['HTTP_CLIENT_IP'] = 'clientIp';
