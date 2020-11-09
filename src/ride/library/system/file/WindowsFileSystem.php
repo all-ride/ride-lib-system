@@ -44,7 +44,7 @@ class WindowsFileSystem extends AbstractFileSystem {
             $path = substr($path, 7);
         }
 
-        if ($path{0} == File::DIRECTORY_SEPARATOR || $this->getDrivePrefix($path)) {
+        if ($path[0] == File::DIRECTORY_SEPARATOR || $this->getDrivePrefix($path)) {
             return true;
         }
 
@@ -163,15 +163,15 @@ class WindowsFileSystem extends AbstractFileSystem {
             return false;
         }
 
-        if ($path{0} == File::DIRECTORY_SEPARATOR) {
-            if ($pathLength >= 3 && $this->isDrive($path{1}) && $path{2} == File::DIRECTORY_SEPARATOR) {
+        if ($path[0] == File::DIRECTORY_SEPARATOR) {
+            if ($pathLength >= 3 && $this->isDrive($path[1]) && $path[2] == File::DIRECTORY_SEPARATOR) {
                 return substr($path, 0, 3);
             }
 
             return File::DIRECTORY_SEPARATOR;
         }
 
-        $drive = $path{0};
+        $drive = $path[0];
         if ($this->isDrive($drive) && substr($path, 0, 3) == $drive . ':/') {
             return $drive . ':/';
         }

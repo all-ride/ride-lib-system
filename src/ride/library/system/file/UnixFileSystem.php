@@ -36,7 +36,7 @@ class UnixFileSystem extends AbstractFileSystem {
             $path = substr($path, 7);
         }
 
-        return $path{0} == File::DIRECTORY_SEPARATOR;
+        return $path[0] == File::DIRECTORY_SEPARATOR;
     }
 
     /**
